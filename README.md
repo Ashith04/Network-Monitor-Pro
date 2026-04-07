@@ -160,6 +160,12 @@ Network-Monitor/
 ---
 
 ## 📸 Screenshots
+![alt text](Screenshots/Alertcenter.png)
+![alt text](Screenshots/BanddwidthDPI.png) 
+![alt text](Screenshots/Dashboard.png) 
+![alt text](Screenshots/Fleetnode.png) 
+![alt text](Screenshots/PacketCapture.png) 
+![alt text](Screenshots/Summary.png)
 
 > Run `python -m streamlit run dashboard.py` and explore each tab to see the interface in action.
 
