@@ -14,7 +14,7 @@ st.set_page_config(page_title="Network Monitor Pro", page_icon="[NM]", layout="w
 COLORS = {
     'primary': '#00FFC2', 'secondary': '#00D2FF', 'success': '#00FFC2',
     'warning': '#f59e0b', 'danger': '#ef4444', 'critical': '#ff0055',
-    'info': '#00D2FF', 'light_bg': '#000000', 'text_dark': '#00FFC2', 'text_light': '#4B5563',
+    'info': '#00D2FF', 'light_bg': '#000000', 'text_dark': '#00FFC2', 'text_light': '#FFFFFF',
     'panel_bg': '#000000', 'glass_border': '#00FFC2'
 }
 
@@ -29,7 +29,9 @@ st.markdown(f"""<style>
 
 .stApp {{ background: #000000; color: #00FFC2; }}
 .stApp p, .stApp div, .stApp h1, .stApp h2, .stApp h3, .stApp span {{ font-family: 'JetBrains Mono', 'Monaco', monospace; letter-spacing: -0.5px; }}
-[data-testid="stSidebar"] {{ background-color: #000000 !important; border-right: 1px solid #1f2937; padding-top: 1rem; }}
+[data-testid="stSidebar"] {{ background-color: #000000 !important; border-right: 1px solid #1f2937; padding-top: 1rem; color: #FFFFFF !important; }}
+[data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3, [data-testid="stSidebar"] p, [data-testid="stSidebar"] label, [data-testid="stSidebar"] span, [data-testid="stSidebar"] small {{ color: #FFFFFF !important; }}
+[data-testid="stWidgetLabel"] p {{ color: #FFFFFF !important; }}
 
 /* Structured Matrix Cards */
 .matrix-card {{
@@ -64,19 +66,48 @@ st.markdown(f"""<style>
 
 /* Metric Overrides - Structured & Monospaced */
 [data-testid="stMetricValue"] {{ font-size: 1.8rem !important; font-weight: 700 !important; color: #00FFC2 !important; }}
-[data-testid="stMetricLabel"] {{ color: #4B5563 !important; text-transform: uppercase; font-size: 0.75rem !important; letter-spacing: 1px; }}
+[data-testid="stMetricLabel"] {{ color: #FFFFFF !important; text-transform: uppercase; font-size: 0.75rem !important; letter-spacing: 1px; }}
 [data-testid="stMetric"] {{ border-left: 2px solid #1f2937; padding-left: 20px !important; }}
 
 /* Toggles & Buttons - Strictly Structured */
 .stButton > button {{ 
-    background: transparent !important; color: #4B5563 !important; 
+    background: transparent !important; color: #FFFFFF !important; 
     border: 1px solid #1f2937 !important; border-radius: 0 !important;
     text-transform: uppercase; font-size: 0.7rem !important; padding: 4px 12px !important;
     transition: all 0.2s;
 }}
 .stButton > button:hover {{ 
     color: #00FFC2 !important; border-color: #00FFC2 !important; 
-    box-shadow: 0 0 8px rgba(0,255,194,0.2) !important;
+    box-shadow: 0 0 8px rgba(0, 255, 194, 0.2) !important;
+}}
+
+/* Navigation Radio Styling - Matrix Neo */
+div[role="radiogroup"] {{ 
+    background: transparent !important; 
+    padding: 0 !important; 
+}}
+div[role="radiogroup"] label {{
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+    font-size: 0.85rem !important;
+    padding: 10px 15px !important;
+    margin-bottom: 5px !important;
+    border-radius: 4px !important;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}}
+div[role="radiogroup"] label:hover {{
+    color: #00FFC2 !important;
+    background: rgba(0, 255, 194, 0.05) !important;
+}}
+div[role="radiogroup"] label[data-selected="true"] {{
+    color: #00FFC2 !important;
+    border: 1px solid #00FFC2 !important;
+    background: rgba(0, 255, 194, 0.1) !important;
+    box-shadow: 0 0 10px rgba(0, 255, 194, 0.1);
 }}
 
 /* Status Pills */
@@ -86,7 +117,7 @@ st.markdown(f"""<style>
 }}
 .tag-online {{ color: #00FFC2; border: 1px solid #00FFC2; animation: neonPulse 2s infinite; }}
 .tag-offline {{ color: #ff0055; border: 1px solid #ff0055; }}
-.tag-disabled {{ color: #4B5563; border: 1px solid #4B5563; }}
+.tag-disabled {{ color: #FFFFFF; border: 1px solid #FFFFFF; }}
 
 /* Sidebar collapse/expand button - Fix "keyboard_double" text & restore navy style */
 [data-testid="stSidebar"] button[kind="headerNoPadding"],
@@ -166,7 +197,7 @@ header[data-testid="stHeader"] {{ background: transparent !important; }}
 
 st.markdown(f"""<div class="header-container">
     <div class="header-title">Network Monitor Pro</div>
-    <div style="font-size: 0.9rem; color: #4B5563; margin-top: 5px; letter-spacing: 2px;">
+    <div style="font-size: 0.9rem; color: #FFFFFF; margin-top: 5px; letter-spacing: 2px;">
         <span style="color: #00FFC2;">&gt;</span> ENTERPRISE GLOBAL OPERATIONS CENTER
     </div>
 </div>""", unsafe_allow_html=True)
@@ -213,8 +244,10 @@ if 'monitoring_active' not in st.session_state:
     monitor_thread.start()
 
 with st.sidebar:
-    st.markdown("### Navigation")
-    view_mode = st.radio("Select View", ["Dashboard", "Devices", "Alerts", "Traffic", "Reports", "Packets"], index=0, label_visibility="collapsed")
+    st.markdown(f'<div style="color: #FFFFFF; font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 10px;">[NAV_LINK] SELECT_NODE</div>', unsafe_allow_html=True)
+    view_mode = st.radio("Select View", 
+                         ["SYSTEM MATRIX", "FLEET NODES", "ALARM CENTER", "BANDWIDTH DPI", "INTELLIGENCE", "INTERCEPTION"], 
+                         index=0, label_visibility="collapsed")
     st.markdown("---")
     st.markdown("### System Telemetry")
     if st.button("🔄 Sync Live Metrics"):
@@ -255,7 +288,7 @@ try:
 except Exception as e:
     st.error(f"Error loading data: {e}")
 
-if view_mode == "Dashboard":
+if view_mode == "SYSTEM MATRIX":
     if not latest_df.empty:
         col1, col2, col3, col4, col5 = st.columns(5)
         total = len(latest_df)
@@ -278,7 +311,7 @@ if view_mode == "Dashboard":
         tab1, tab2, tab3, tab4 = st.tabs(["Overview", "Alerts", "Traffic", "Trends"])
         
         with tab1:
-            st.markdown(f'<div style="color: #4B5563; font-size: 0.75rem; margin-bottom: 20px;">[SYS_MONITOR] DEVICE_FLEET_STATUS</div>', unsafe_allow_html=True)
+            st.markdown(f'<div style="color: #FFFFFF; font-size: 0.75rem; margin-bottom: 20px;">[SYS_MONITOR] DEVICE_FLEET_STATUS</div>', unsafe_allow_html=True)
             
             # Helper to toggle IP status
             def toggle_ip(ip):
@@ -301,16 +334,16 @@ if view_mode == "Dashboard":
                     
                     with col_ip:
                         st.markdown(f"""<div style="font-size: 1.1rem; font-weight: 700; color: #00FFC2;">{ip}</div>
-                        <div style="font-size: 0.65rem; color: #4B5563;">NODE_IDENTIFIER</div>""", unsafe_allow_html=True)
+                        <div style="font-size: 0.65rem; color: #FFFFFF;">NODE_IDENTIFIER</div>""", unsafe_allow_html=True)
                     
                     with col_lat:
                         latency = f"{row['latency']:.1f} MS" if (pd.notna(row['latency']) and is_enabled) else "---"
                         st.markdown(f"""<div style="font-size: 0.9rem; color: #00FFC2;">{latency}</div>
-                        <div style="font-size: 0.65rem; color: #4B5563;">LATENCY</div>""", unsafe_allow_html=True)
+                        <div style="font-size: 0.65rem; color: #FFFFFF;">LATENCY</div>""", unsafe_allow_html=True)
                     
                     with col_health:
                         st.markdown(f"""<div style="font-size: 0.9rem; color: #00FFC2;">{row['health_score']:.0f}%</div>
-                        <div style="font-size: 0.65rem; color: #4B5563;">HEALTH_INDEX</div>""", unsafe_allow_html=True)
+                        <div style="font-size: 0.65rem; color: #FFFFFF;">HEALTH_INDEX</div>""", unsafe_allow_html=True)
                     
                     with col_action:
                         # Standardized Toggle Position
@@ -384,9 +417,9 @@ if view_mode == "Dashboard":
                     
                     fig.update_layout(
                         scene=dict(
-                            xaxis=dict(title='Device Index', tickvals=list(range(len(unique_ips))), ticktext=unique_ips, color='#4B5563'),
-                            yaxis=dict(title='Timeline', color='#4B5563'),
-                            zaxis=dict(title='Latency (ms)', color='#4B5563'),
+                            xaxis=dict(title='Device Index', tickvals=list(range(len(unique_ips))), ticktext=unique_ips, color='#FFFFFF'),
+                            yaxis=dict(title='Timeline', color='#FFFFFF'),
+                            zaxis=dict(title='Latency (ms)', color='#FFFFFF'),
                             xaxis_backgroundcolor="black",
                             yaxis_backgroundcolor="black",
                             zaxis_backgroundcolor="black",
@@ -401,8 +434,8 @@ if view_mode == "Dashboard":
                 else:
                     st.info("Insufficient latency data for 3D mapping.")
 
-elif view_mode == "Devices":
-    st.markdown(f'<div style="color: #4B5563; font-size: 0.75rem; margin-bottom: 20px;">[SYS_ADMIN] FLEET_CONFIGURATION_NODE</div>', unsafe_allow_html=True)
+elif view_mode == "FLEET NODES":
+    st.markdown(f'<div style="color: #FFFFFF; font-size: 0.75rem; margin-bottom: 20px;">[SYS_ADMIN] FLEET_CONFIGURATION_NODE</div>', unsafe_allow_html=True)
     if not latest_df.empty:
         for idx, row in latest_df.iterrows():
             ip = row['ip']
@@ -415,7 +448,7 @@ elif view_mode == "Devices":
                 
                 with col1:
                     st.markdown(f"""<div style="font-size: 1.1rem; font-weight: 700; color: #00FFC2;">{ip}</div>
-                    <div style="font-size: 0.65rem; color: #4B5563;">TARGET_IP_ADDRESS</div>""", unsafe_allow_html=True)
+                    <div style="font-size: 0.65rem; color: #FFFFFF;">TARGET_IP_ADDRESS</div>""", unsafe_allow_html=True)
                 
                 with col2:
                     tag_class = "online" if status == "Online" else ("offline" if status == "Offline" else "disabled")
@@ -427,17 +460,17 @@ elif view_mode == "Devices":
                 with col3:
                     latency = f"{row['latency']:.1f} MS" if (pd.notna(row['latency']) and is_enabled) else "---"
                     st.markdown(f"""<div style="font-size: 0.9rem; color: #00FFC2;">{latency}</div>
-                    <div style="font-size: 0.65rem; color: #4B5563;">LAST_PING</div>""", unsafe_allow_html=True)
+                    <div style="font-size: 0.65rem; color: #FFFFFF;">LAST_PING</div>""", unsafe_allow_html=True)
                 
                 with col4:
                     st.markdown(f"""<div style="text-align: right;">
                         <span style="display: block; font-size: 1.1rem; font-weight: 700; color: #00FFC2;">{row['health_score']:.0f}%</span>
-                        <span style="font-size: 0.65rem; color: #4B5563;">HEALTH_INDEX</span>
+                        <span style="font-size: 0.65rem; color: #FFFFFF;">HEALTH_INDEX</span>
                     </div>""", unsafe_allow_html=True)
                 st.markdown('</div>', unsafe_allow_html=True)
 
-elif view_mode == "Alerts":
-    st.markdown(f'<div style="color: #4B5563; font-size: 0.75rem; margin-bottom: 20px;">[SYS_SEC] ALARM_PROPAGATION_LOG</div>', unsafe_allow_html=True)
+elif view_mode == "ALARM CENTER":
+    st.markdown(f'<div style="color: #FFFFFF; font-size: 0.75rem; margin-bottom: 20px;">[SYS_SEC] ALARM_PROPAGATION_LOG</div>', unsafe_allow_html=True)
     if not alerts_df.empty:
         col1, col2, col3, col4 = st.columns(4)
         col1.metric("CRITICAL", len(alerts_df[alerts_df['severity'] == 1]))
@@ -454,10 +487,10 @@ elif view_mode == "Alerts":
             st.markdown(f"""<div class="matrix-card" style="border-left: 3px solid {color_border};">
                 <div style="display: flex; justify-content: space-between;">
                     <span style="color: {color_border}; font-weight: 800;">[{alert.get('alert_type', 'Unknown')}]</span>
-                    <span style="color: #4B5563; font-size: 0.7rem;">{alert.get('timestamp', '')}</span>
+                    <span style="color: #FFFFFF; font-size: 0.7rem;">{alert.get('timestamp', '')}</span>
                 </div>
                 <div style="margin-top: 10px; font-size: 0.95rem;">
-                    <span style="color: #4B5563;">TARGET:</span> <span style="color: #00FFC2;">{alert.get('device_ip', 'N/A')}</span>
+                    <span style="color: #FFFFFF;">TARGET:</span> <span style="color: #00FFC2;">{alert.get('device_ip', 'N/A')}</span>
                 </div>
                 <div style="margin-top: 5px; color: #00FFC2; font-size: 0.9rem;">
                     {alert.get('message', '')}
@@ -466,7 +499,7 @@ elif view_mode == "Alerts":
     else:
         st.info("System Normal: No alerts active")
 
-elif view_mode == "Traffic":
+elif view_mode == "BANDWIDTH DPI":
     st.markdown('<div class="section-title">Deep DPI & Traffic Analysis</div>', unsafe_allow_html=True)
     
     import psutil
@@ -600,9 +633,9 @@ elif view_mode == "Traffic":
     except Exception:
         pass
 
-elif view_mode == "Reports":
+elif view_mode == "INTELLIGENCE":
     st.markdown('<div class="section-title">Intelligence Documentation</div>', unsafe_allow_html=True)
-    st.markdown("<p style='color: #94a3b8; margin-bottom: 10px;'>Select a report type from the dropdown below to generate a live intelligence document.</p>", unsafe_allow_html=True)
+    st.markdown("<p style='color: #FFFFFF; margin-bottom: 10px;'>Select a report type from the dropdown below to generate a live intelligence document.</p>", unsafe_allow_html=True)
     report_type = st.selectbox("Report Type (click to expand)", ["Device Summary", "Alert Summary", "Traffic Summary", "Health Report"],
                                index=0, help="Choose which report to generate")
     
@@ -730,7 +763,7 @@ elif view_mode == "Reports":
             except Exception as e:
                 st.error(f"Error generating health report: {e}")
 
-elif view_mode == "Packets":
+elif view_mode == "INTERCEPTION":
     st.markdown('<div class="section-title" style="margin-bottom: 5px;">Deep Packet Analytics - Live Interception</div>', unsafe_allow_html=True)
     
     if 'capture_active' not in st.session_state:
@@ -745,7 +778,7 @@ elif view_mode == "Packets":
 
     col1, col2 = st.columns([8, 2])
     with col1:
-        st.markdown("<p style='color: #94a3b8; font-size: 0.9em; margin-top: 0;'>Monitoring Promiscuous Network Interface</p>", unsafe_allow_html=True)
+        st.markdown("<p style='color: #FFFFFF; font-size: 0.9em; margin-top: 0;'>Monitoring Promiscuous Network Interface</p>", unsafe_allow_html=True)
     with col2:
         if not st.session_state.capture_active:
             if st.button("▶️ Initialize Link"):
@@ -829,10 +862,10 @@ elif view_mode == "Packets":
                 with col_tree:
                     st.markdown(f"""
                     <div style="background: rgba(30, 41, 59, 0.8); padding: 15px; border-radius: 8px; border-left: 3px solid {COLORS['secondary']}; font-family: monospace;">
-                        <span style="color: #94a3b8;">▶ Frame {selected_p['no']}:</span> {selected_p['size']} bytes on wire ({selected_p['size'] * 8} bits)<br>
-                        <span style="color: #94a3b8;">▶ Ethernet II, Src:</span> 00:00:00:00:00:00, Dst: ff:ff:ff:ff:ff:ff<br>
-                        <span style="color: #94a3b8;">▶ Internet Protocol Version 4,</span> Src: {selected_p['src_ip']}, Dst: {selected_p['dst_ip']}<br>
-                        <span style="color: #94a3b8;">▶ {selected_p['protocol']}:</span> Src Port: {selected_p['src_port']}, Dst Port: {selected_p['dst_port']}<br><br>
+                        <span style="color: #FFFFFF;">▶ Frame {selected_p['no']}:</span> {selected_p['size']} bytes on wire ({selected_p['size'] * 8} bits)<br>
+                        <span style="color: #FFFFFF;">▶ Ethernet II, Src:</span> 00:00:00:00:00:00, Dst: ff:ff:ff:ff:ff:ff<br>
+                        <span style="color: #FFFFFF;">▶ Internet Protocol Version 4,</span> Src: {selected_p['src_ip']}, Dst: {selected_p['dst_ip']}<br>
+                        <span style="color: #FFFFFF;">▶ {selected_p['protocol']}:</span> Src Port: {selected_p['src_port']}, Dst Port: {selected_p['dst_port']}<br><br>
                         <span style="color: #38bdf8;">» Info: {selected_p['info']}</span>
                     </div>
                     """, unsafe_allow_html=True)
